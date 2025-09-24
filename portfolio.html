@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thalir - Full Stack Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/poppins');
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .skill-bar { transition: width 1s ease-in-out; }
+        .typing-animation { 
+            border-right: 2px solid #667eea; 
+            animation: blink 1s infinite; 
+        }
+        @keyframes blink { 0%, 50% { border-color: transparent; } 51%, 100% { border-color: #667eea; } }
+        .scroll-smooth { scroll-behavior: smooth; }
+        
+        /* Floating Shapes Animation */
+        .floating-shapes {
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            animation: floatShape 15s ease-in-out infinite;
+        }
+        
+        .shape-1 {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+        
+        .shape-2 {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+            animation-duration: 25s;
+        }
+        
+        .shape-3 {
+            width: 60px;
+            height: 60px;
+            top: 30%;
+            right: 30%;
+            animation-delay: -10s;
+            animation-duration: 18s;
+        }
+        
+        .shape-4 {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -15s;
+            animation-duration: 22s;
+        }
+        
+        .shape-5 {
+            width: 40px;
+            height: 40px;
+            top: 10%;
+            left: 50%;
+            animation-delay: -8s;
+            animation-duration: 16s;
+        }
+        
+        .shape-6 {
+            width: 90px;
+            height: 90px;
+            bottom: 30%;
+            right: 40%;
+            animation-delay: -12s;
+            animation-duration: 24s;
+        }
+        
+        @keyframes floatShape {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(-40px) translateX(-10px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-20px) translateX(15px) rotate(270deg);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .shape {
+                transform: scale(0.7);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 scroll-smooth">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-gray-800">Thalir</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+                    <a href="#skills" class="text-gray-600 hover:text-blue-600 transition-colors">Skills</a>
+                    <a href="#education" class="text-gray-600 hover:text-blue-600 transition-colors">Education</a>
+                    <a href="#contact" class="text-gray-600 hover:text-blue-600 transition-colors">Contact</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-600 z-60 relative">
+                    <i id="menu-icon" class="fas fa-bars text-xl transition-transform duration-300"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Off-Canvas Menu -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 opacity-0 invisible transition-all duration-300 md:hidden">
+        <div id="mobile-menu" class="fixed top-0 right-0 h-full w-80 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="text-2xl font-bold text-gray-800">Menu</div>
+                    <button id="mobile-menu-close" class="text-gray-600 hover:text-gray-800">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <nav class="space-y-6">
+                    <a href="#home" class="mobile-nav-link flex items-center space-x-4 text-gray-700 hover:text-blue-600 transition-colors py-3 border-b border-gray-100">
+                        <i class="fas fa-home w-5"></i>
+                        <span class="text-lg">Home</span>
+                    </a>
+                    <a href="#about" class="mobile-nav-link flex items-center space-x-4 text-gray-700 hover:text-blue-600 transition-colors py-3 border-b border-gray-100">
+                        <i class="fas fa-user w-5"></i>
+                        <span class="text-lg">About</span>
+                    </a>
+                    <a href="#skills" class="mobile-nav-link flex items-center space-x-4 text-gray-700 hover:text-blue-600 transition-colors py-3 border-b border-gray-100">
+                        <i class="fas fa-code w-5"></i>
+                        <span class="text-lg">Skills</span>
+                    </a>
+                    <a href="#education" class="mobile-nav-link flex items-center space-x-4 text-gray-700 hover:text-blue-600 transition-colors py-3 border-b border-gray-100">
+                        <i class="fas fa-graduation-cap w-5"></i>
+                        <span class="text-lg">Education</span>
+                    </a>
+                    <a href="#contact" class="mobile-nav-link flex items-center space-x-4 text-gray-700 hover:text-blue-600 transition-colors py-3 border-b border-gray-100">
+                        <i class="fas fa-envelope w-5"></i>
+                        <span class="text-lg">Contact</span>
+                    </a>
+                </nav>
+                <div class="mt-12 pt-8 border-t border-gray-200">
+                    <div class="text-center">
+                        <div class="text-sm text-gray-500 mb-4">Connect with me</div>
+                        <div class="flex justify-center space-x-4">
+                            <a href="https://www.linkedin.com/in/imthalir" class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+                                <i class="fab fa-linkedin text-sm"></i>
+                            </a>
+                            <a href="https://github.com/imthalir" class="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors">
+                                <i class="fab fa-github text-sm"></i>
+                            </a>
+                            <a href=""mailto:imthalir@gmail.com?subject=Inquiry%20from%20the%20Website&body=Hello,%20I%20am%20writing%20to%20you%20about..."" target="blank" rel="noopener noreferrer" class="w-10 h-10 bg-red-600 text-white rounded-full flex items-center justify-center hover:bg-red-700 transition-colors">
+                                <i class="fas fa-envelope text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen gradient-bg flex items-center justify-center text-white relative overflow-hidden">
+        <!-- Interactive Background Animation -->
+        <canvas id="particleCanvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
+        <div class="floating-shapes absolute inset-0 pointer-events-none">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+            <div class="shape shape-6"></div>
+        </div>
+        <div class="text-center px-6 relative z-10">
+            <div class="mb-8" data-aos="zoom-in" data-aos-duration="1000">
+                <div class="w-64 h-64 mx-auto mb-6 bg-white/50 rounded-full flex items-center justify-center">
+                    <img src="Profile.png" class="rounded-full" alt="Thalir" />
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">Hi, I'm Thalir</h1>
+            <div class="text-xl md:text-2xl mb-8 h-8" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                <span id="typing-text" class="typing-animation"></span>
+            </div>
+            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                Certified Full Stack Developer specializing in MERN Stack and Java development. 
+                Passionate about creating innovative web solutions.
+            </p>
+            <div class="space-x-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+                <a href="#contact" class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+                    Get In Touch
+                </a>
+                <a href="#about" class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-purple-600 transition-colors">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="800">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">About Me</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <div class="bg-gradient-to-br from-blue-100 to-purple-100 p-8 rounded-2xl">
+                        <i class="fas fa-laptop-code text-6xl text-blue-600 mb-4"></i>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Full Stack Developer</h3>
+                        <p class="text-gray-600">Specialized in modern web technologies with expertise in both frontend and backend development.</p>
+                    </div>
+                </div>
+                <div class="space-y-6" data-aos="fade-left" data-aos-duration="1000">
+                    <h3 class="text-2xl font-bold text-gray-800">Professional Overview</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        I'm a passionate Full Stack Developer with certifications in MERN Stack and Java development. 
+                        I love building scalable web applications and solving complex problems through clean, efficient code.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+                            <i class="fas fa-certificate text-blue-600 mb-2"></i>
+                            <div class="font-semibold text-gray-800">MERN Stack</div>
+                            <div class="text-sm text-gray-600">Certified</div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
+                            <i class="fab fa-java text-orange-600 mb-2"></i>
+                            <div class="font-semibold text-gray-800">Java</div>
+                            <div class="text-sm text-gray-600">Certified</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="800">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Technical Skills</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Frontend Skills -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg card-hover" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-palette text-4xl text-blue-600 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Frontend</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-700">React.js</span>
+                                <span class="text-gray-500">90%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="skill-bar bg-blue-600 h-2 rounded-full" style="width: 0%" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-700">HTML/CSS</span>
+                                <span class="text-gray-500">95%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="skill-bar bg-blue-600 h-2 rounded-full" style="width: 0%" data-width="95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-700">JavaScript</span>
+                                <span class="text-gray-500">88%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="skill-bar bg-blue-600 h-2 rounded-full" style="width: 0%" data-width="88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend Skills -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg card-hover" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-server text-4xl text-green-600 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Backend</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-700">Node.js</span>
+                                <span class="text-gray-500">85%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="skill-bar bg-green-600 h-2 rounded-full" style="width: 0%" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-700">Express.js</span>
+                                <span class="text-gray-500">82%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="skill-bar bg-green-600 h-2 rounded-full" style="width: 0%" data-width="82%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-700">Java</span>
+                                <span class="text-gray-500">80%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="skill-bar bg-green-600 h-2 rounded-full" style="width: 0%" data-width="80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database Skills -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg card-hover" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-database text-4xl text-purple-600 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Database</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-700">MongoDB</span>
+                                <span class="text-gray-500">85%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="skill-bar bg-purple-600 h-2 rounded-full" style="width: 0%" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-700">MySQL</span>
+                                <span class="text-gray-500">78%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="skill-bar bg-purple-600 h-2 rounded-full" style="width: 0%" data-width="78%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-700">Firebase</span>
+                                <span class="text-gray-500">75%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="skill-bar bg-purple-600 h-2 rounded-full" style="width: 0%" data-width="75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="800">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Education</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            <div class="space-y-8">
+                <!-- Degree -->
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-2xl card-hover" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="100">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-blue-600 p-3 rounded-full">
+                                <i class="fas fa-graduation-cap text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Bachelor of Engineering - Computer Science and Engineering</h3>
+                                <a href="https://uit.ac.in/">
+                                <p class="text-blue-600 font-semibold">United Institute of Technology</p>
+                                </a>
+                                <p class="text-gray-600 mt-2">Comprehensive study in computer science fundamentals, software engineering, and modern development practices.</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0 text-right">
+                            <div class="bg-blue-600 text-white px-4 py-2 rounded-full font-semibold text-sm">
+                                70%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12th Grade -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 p-8 rounded-2xl card-hover" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-green-600 p-3 rounded-full">
+                                <i class="fas fa-school text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Higher Secondary Certificate (12th Grade)</h3>
+                                <a href="https://www.pgv.edu.in/">
+                                <p class="text-green-600 font-semibold">Dr. P.G.V Matriculation Hr. Sec. School</p>
+                                </a>
+                                <p class="text-gray-600 mt-2">Completed higher secondary education with focus on science and mathematics.</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0 text-right">
+                            <div class="bg-green-600 text-white px-4 py-2 rounded-full font-semibold">
+                                77%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10th Grade -->
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-8 rounded-2xl card-hover" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-purple-600 p-3 rounded-full">
+                                <i class="fas fa-book text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Secondary School Certificate (10th Grade)</h3>
+                                <a href="https://www.pgv.edu.in/">
+                                <p class="text-green-600 font-semibold">Dr. P.G.V Matriculation Hr. Sec. School</p>
+                                </a>
+                                <p class="text-gray-600 mt-2">Completed secondary education with strong foundation in core subjects.</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0 text-right">
+                            <div class="bg-purple-600 text-white px-4 py-2 rounded-full font-semibold">
+                                64%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 gradient-bg text-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-4" data-aos="fade-up" data-aos-duration="800">Let's Work Together</h2>
+            <div class="w-20 h-1 bg-white mx-auto mb-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100"></div>
+            <p class="text-xl mb-12 opacity-90" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                Ready to bring your ideas to life? Let's discuss your next project!
+            </p>
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white/10 p-6 rounded-2xl backdrop-blur-sm" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
+                    <a href="mailto:imthalir@gmail.com?subject=Inquiry%20from%20the%20Website&body=Hello,%20I%20am%20writing%20to%20you%20about..." target="blank" rel="noopener noreferrer">
+                    <i class="fas fa-envelope text-3xl mb-4"></i>
+                    <h3 class="font-semibold mb-2">Email</h3>
+                    <p class="opacity-80">imthalir@gmail.com</p>
+                    </a>
+                </div>
+                <div class="bg-white/10 p-6 rounded-2xl backdrop-blur-sm" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
+                    <a href="https://www.linkedin.com/in/imthalir">
+                    <i class="fab fa-linkedin text-3xl mb-4"></i>
+                    <h3 class="font-semibold mb-2">LinkedIn</h3>
+                    <p class="opacity-80">linkedin.com/in/imthalir</p>
+                    </a>
+                </div>
+                <div class="bg-white/10 p-6 rounded-2xl backdrop-blur-sm" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="500">
+                    <a href="https://github.com/imthalir">
+                    <i class="fab fa-github text-3xl mb-4"></i>
+                    <h3 class="font-semibold mb-2">GitHub</h3>
+                    <p class="opacity-80">github.com/imthalir</p>
+                    </a>
+                </div>
+            </div>
+            <a href="Resume.pdf" download="Resume" class="bg-white btn button-main button-scheme text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+                Download Resume
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <p>&copy; 2024 Thalir. All rights reserved. Built with passion and code.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        function openMobileMenu() {
+            mobileMenuOverlay.classList.remove('opacity-0', 'invisible');
+            mobileMenuOverlay.classList.add('opacity-100', 'visible');
+            mobileMenu.classList.remove('translate-x-full');
+            mobileMenu.classList.add('translate-x-0');
+            menuIcon.classList.remove('fa-bars');
+            menuIcon.classList.add('fa-times');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileMenu() {
+            mobileMenuOverlay.classList.remove('opacity-100', 'visible');
+            mobileMenuOverlay.classList.add('opacity-0', 'invisible');
+            mobileMenu.classList.remove('translate-x-0');
+            mobileMenu.classList.add('translate-x-full');
+            menuIcon.classList.remove('fa-times');
+            menuIcon.classList.add('fa-bars');
+            document.body.style.overflow = '';
+        }
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('translate-x-full')) {
+                openMobileMenu();
+            } else {
+                closeMobileMenu();
+            }
+        });
+        
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', (e) => {
+            if (e.target === mobileMenuOverlay) {
+                closeMobileMenu();
+            }
+        });
+        
+        // Close mobile menu when clicking nav links
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Typing animation
+        const texts = ['Full Stack Developer', 'MERN Stack Expert', 'Java Developer', 'Problem Solver'];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typing-text');
+
+        function typeText() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeText, typeSpeed);
+        }
+
+        // Start typing animation
+        typeText();
+
+        // Animate skill bars when in view
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const skillBars = entry.target.querySelectorAll('.skill-bar');
+                    skillBars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 200);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // Observe skills section
+        const skillsSection = document.getElementById('skills');
+        observer.observe(skillsSection);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    closeMobileMenu();
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+
+        // Interactive Particle System
+        class ParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particleCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.mouse = { x: 0, y: 0 };
+                this.isTouch = false;
+                
+                this.init();
+                this.bindEvents();
+                this.animate();
+            }
+            
+            init() {
+                this.resize();
+                this.createParticles();
+            }
+            
+            resize() {
+                this.canvas.width = this.canvas.offsetWidth;
+                this.canvas.height = this.canvas.offsetHeight;
+            }
+            
+            createParticles() {
+                const particleCount = Math.min(50, Math.floor(this.canvas.width * this.canvas.height / 15000));
+                this.particles = [];
+                
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        size: Math.random() * 3 + 1,
+                        opacity: Math.random() * 0.5 + 0.2,
+                        originalSize: Math.random() * 3 + 1
+                    });
+                }
+            }
+            
+            bindEvents() {
+                // Mouse events
+                this.canvas.addEventListener('mousemove', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    this.mouse.x = e.clientX - rect.left;
+                    this.mouse.y = e.clientY - rect.top;
+                    this.isTouch = false;
+                });
+                
+                // Touch events
+                this.canvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    const rect = this.canvas.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    this.mouse.x = touch.clientX - rect.left;
+                    this.mouse.y = touch.clientY - rect.top;
+                    this.isTouch = true;
+                });
+                
+                this.canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const rect = this.canvas.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    this.mouse.x = touch.clientX - rect.left;
+                    this.mouse.y = touch.clientY - rect.top;
+                    this.isTouch = true;
+                });
+                
+                // Window resize
+                window.addEventListener('resize', () => {
+                    this.resize();
+                    this.createParticles();
+                });
+                
+                // Enable pointer events for interaction
+                this.canvas.style.pointerEvents = 'auto';
+            }
+            
+            updateParticles() {
+                this.particles.forEach(particle => {
+                    // Update position
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    // Bounce off edges
+                    if (particle.x < 0 || particle.x > this.canvas.width) {
+                        particle.vx *= -1;
+                        particle.x = Math.max(0, Math.min(this.canvas.width, particle.x));
+                    }
+                    if (particle.y < 0 || particle.y > this.canvas.height) {
+                        particle.vy *= -1;
+                        particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
+                    }
+                    
+                    // Mouse/touch interaction
+                    const dx = this.mouse.x - particle.x;
+                    const dy = this.mouse.y - particle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const maxDistance = this.isTouch ? 150 : 100;
+                    
+                    if (distance < maxDistance) {
+                        const force = (maxDistance - distance) / maxDistance;
+                        const angle = Math.atan2(dy, dx);
+                        
+                        // Repel particles from cursor/touch
+                        particle.vx -= Math.cos(angle) * force * 0.02;
+                        particle.vy -= Math.sin(angle) * force * 0.02;
+                        
+                        // Increase size and opacity on interaction
+                        particle.size = particle.originalSize * (1 + force * 2);
+                        particle.opacity = Math.min(1, particle.opacity + force * 0.3);
+                    } else {
+                        // Return to original size and opacity
+                        particle.size += (particle.originalSize - particle.size) * 0.1;
+                        particle.opacity += (0.3 - particle.opacity) * 0.05;
+                    }
+                    
+                    // Apply friction
+                    particle.vx *= 0.99;
+                    particle.vy *= 0.99;
+                });
+            }
+            
+            drawParticles() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.particles.forEach(particle => {
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+                    this.ctx.fill();
+                });
+                
+                // Draw connections
+                this.particles.forEach((particle, i) => {
+                    this.particles.slice(i + 1).forEach(otherParticle => {
+                        const dx = particle.x - otherParticle.x;
+                        const dy = particle.y - otherParticle.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 120) {
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(particle.x, particle.y);
+                            this.ctx.lineTo(otherParticle.x, otherParticle.y);
+                            this.ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 120)})`;
+                            this.ctx.lineWidth = 1;
+                            this.ctx.stroke();
+                        }
+                    });
+                });
+            }
+            
+            animate() {
+                this.updateParticles();
+                this.drawParticles();
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+        
+        // Initialize particle system when page loads
+        window.addEventListener('load', () => {
+            new ParticleSystem();
+        });
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c85e7af5e985bf',t:'MTc1NzQzODU2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
